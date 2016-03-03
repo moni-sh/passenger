@@ -10,7 +10,7 @@ Wait = React.createClass({
         var self = this;
         navigator.geolocation.getCurrentPosition(function(position) {
             self.setState({
-                currentPosition: position,
+                currentPosition: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
                 ready: true
             });
         });
@@ -27,7 +27,8 @@ Wait = React.createClass({
     _mapOptions() {
         if(this.state.currentPosition) {
             return {
-                center: new google.maps.LatLng(this.state.currentPosition.coords.latitude, this.state.currentPosition.coords.longitude),
+                center: this.state.currentPosition,
+                //center: new google.maps.LatLng(32.0641227,34.7698104),
                 zoom: 17
             };
         }
@@ -38,7 +39,7 @@ Wait = React.createClass({
     },
     render() {
         if (this.data.loaded)
-            return <GoogleMap name="mymap" options={this.data.mapOptions} />;
+            return <GoogleMap name="mymap" options={this.data.mapOptions} currentPosition={this.state.currentPosition}/>;
 
         return <div>Loading map...</div>;
     }
@@ -50,6 +51,7 @@ GoogleMap = React.createClass({
         options: React.PropTypes.object.isRequired
     },
     componentDidMount() {
+        var self = this;
         GoogleMaps.create({
             name: this.props.name,
             element: ReactDOM.findDOMNode(this),
@@ -57,13 +59,37 @@ GoogleMap = React.createClass({
         });
 
         GoogleMaps.ready(this.props.name, function(map) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                ;
-            })
-            var marker = new google.maps.Marker({
-                position: map.options.center,
-                map: map.instance
+            var cabImage = 'https://avatars0.githubusercontent.com/u/17613586?v=3&s=40';
+            var passangerImage = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+
+            var you = new google.maps.Marker({
+                position: self.props.currentPosition,
+                map: map.instance,
+                icon: passangerImage
             });
+
+            var cab = null;
+
+
+            var locations = [32.0512168,34.7836476];
+
+            cab = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[0], locations[1]),
+                map: map.instance,
+                icon: cabImage
+            });
+            Meteor.setInterval(function(){
+                if(cab){
+                    cab.setMap(null);
+                }
+                locations[1] = locations[1] - 0.0001;
+                cab = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[0], locations[1]),
+                    map: map.instance,
+                    icon: cabImage
+                });
+
+            } ,1000);
         });
     },
     componentWillUnmount() {
