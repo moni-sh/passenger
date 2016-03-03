@@ -1,19 +1,40 @@
 Wait = React.createClass({
     mixins: [ReactMeteorData],
+    getInitialState() {
+        return {
+            currentPosition: null,
+            ready: false
+        };
+    },
+    componentWillMount() {
+        var self = this;
+        navigator.geolocation.getCurrentPosition(function(position) {
+            self.setState({
+                currentPosition: position,
+                ready: true
+            });
+        });
+    },
     componentDidMount() {
         GoogleMaps.load();
     },
     getMeteorData() {
         return {
-            loaded: GoogleMaps.loaded(),
+            loaded: GoogleMaps.loaded() && this.state.ready,
             mapOptions: GoogleMaps.loaded() && this._mapOptions()
         };
     },
     _mapOptions() {
-        return {
-            center: new google.maps.LatLng(-37.8136, 144.9631),
-            zoom: 8
-        };
+        if(this.state.currentPosition) {
+            return {
+                center: new google.maps.LatLng(this.state.currentPosition.coords.latitude, this.state.currentPosition.coords.longitude),
+                zoom: 17
+            };
+        }
+        else {
+            return {};
+        }
+
     },
     render() {
         if (this.data.loaded)
@@ -36,6 +57,9 @@ GoogleMap = React.createClass({
         });
 
         GoogleMaps.ready(this.props.name, function(map) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                ;
+            })
             var marker = new google.maps.Marker({
                 position: map.options.center,
                 map: map.instance
