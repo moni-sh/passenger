@@ -83,6 +83,8 @@ GoogleMap = React.createClass({
                     cab.setMap(null);
                 }
                 locations[1] = locations[1] - 0.0001;
+                locations[0] = locations[0] + 0.0001;
+
                 cab = new google.maps.Marker({
                     position: new google.maps.LatLng(locations[0], locations[1]),
                     map: map.instance,
