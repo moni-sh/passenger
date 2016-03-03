@@ -9,3 +9,9 @@ FlowRouter.route('/directions/:number', {
         ReactLayout.render(PickDirection, params);
     }
 });
+
+FlowRouter.route('/wait/:number/:direction', {
+    action: function(params) {
+        ReactLayout.render(Wait, params);
+    }
+});

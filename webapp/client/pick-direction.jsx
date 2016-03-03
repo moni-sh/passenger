@@ -21,5 +21,6 @@ var Direction = React.createClass({
     },
     setRide() {
         console.log('call mongo firebase, who ever?!');
+        FlowRouter.go('/wait/' + this.props.line.number + '/' + this.props.direction);
     }
 });

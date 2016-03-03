@@ -22,3 +22,4 @@ react
 kadira:flow-router
 kadira:react-layout
 mrt:firebase
+dburles:google-maps
