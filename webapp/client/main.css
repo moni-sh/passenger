@@ -1,0 +1,6 @@
+html, body, #react-root, .monish {
+    height: 100%;
+}
+.line {
+    height: 25%;
+}
