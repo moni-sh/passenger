@@ -1,4 +1,4 @@
-WelcomeComponent = React.createClass({
+PickLine = React.createClass({
     render() {
         return <div className="monish">
             {this.state.lines.map( line => {return <Line {...line}></Line>})}
@@ -6,20 +6,18 @@ WelcomeComponent = React.createClass({
     },
     getInitialState() {
         return {
-            lines: [
-                {number: 4},
-                {number: 5},
-                {number: 16},
-                {number: 51}
-            ]
+            lines: cabLines
         }
     }
 });
 
-Line = React.createClass({
+var Line = React.createClass({
     render() {
-        return (<div className="line">
+        return (<div className="line" onClick={this.pickLine}>
             {this.props.number}
         </div>);
+    },
+    pickLine() {
+        FlowRouter.go('/directions/' + this.props.number)
     }
 });

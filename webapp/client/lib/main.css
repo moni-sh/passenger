@@ -3,4 +3,6 @@ html, body, #react-root, .monish {
 }
 .line {
     height: 25%;
+    padding: 3px;
+    border: solid black 1px;
 }

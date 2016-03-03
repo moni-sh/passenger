@@ -1,5 +1,11 @@
 FlowRouter.route('/', {
     action: function(params) {
-        ReactLayout.render(WelcomeComponent, {name: "Arunoda"});
+        ReactLayout.render(PickLine);
+    }
+});
+
+FlowRouter.route('/directions/:number', {
+    action: function(params) {
+        ReactLayout.render(PickDirection, params);
     }
 });
