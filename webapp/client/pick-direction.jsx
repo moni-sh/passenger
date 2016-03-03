@@ -17,7 +17,7 @@ PickDirection = React.createClass({
 
 var Direction = React.createClass({
     render() {
-       return <div onClick={this.setRide}>{this.props.direction}</div>;
+       return <div className="direction" onClick={this.setRide}>{this.props.direction}</div>;
     },
     setRide() {
         console.log('call mongo firebase, who ever?!');

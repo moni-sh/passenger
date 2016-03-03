@@ -1,6 +1,7 @@
 PickLine = React.createClass({
     render() {
         return <div className="monish">
+            <div className="title">what line?</div>
             {this.state.lines.map( line => {return <Line {...line}></Line>})}
         </div>
     },
